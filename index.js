@@ -8,17 +8,23 @@ function request(uri) {
     const buffers = [];
 
     req.on("response", response => {
-      response.on("data", data => buffers.push(data));
-      response.on("end", () => {
-        const buffer = Buffer.concat(buffers);
-        const str = buffer.toString("ascii");
-        try {
-          const json = JSON.parse(str);
-          resolve(json);
-        } catch (error) {
-          return reject(error);
-        }
+      const body = new Promise(resolve => {
+        response.on("data", data => buffers.push(data));
+        response.on("end", () => {
+          const buffer = Buffer.concat(buffers);
+          resolve(buffer);
+        });
       });
+
+      const resp = {
+        ...response,
+        async data() {
+          const blob = await body;
+          return JSON.parse(blob.toString("ascii"));
+        }
+      };
+
+      resolve(resp);
     });
 
     req.on("error", reject);
@@ -53,7 +59,7 @@ class MockSwaggerServer {
       protocol: "http",
       hostname: addr.address,
       port: addr.port,
-      path
+      pathname: path
     });
 
     return request(uri);
@@ -71,15 +77,30 @@ class MockSwaggerServer {
 function generateHandler(_spec, valueGenerator) {
   const generator = valueGenerator();
   const app = express();
+
   app.get("/", (_req, res) => {
     const nextValue = generator.next().value;
     res.write(JSON.stringify(nextValue));
     res.end();
   });
+
+  app.use((_req, res, _next) => {
+    res.writeHead(404);
+    res.end();
+  });
+
   return app;
 }
 
-module.exports = function createServer(specification, valueGenerator) {
+function* emptyGenerator() {
+  yield undefined;
+  yield* emptyGenerator();
+}
+
+module.exports = function createServer(
+  specification,
+  valueGenerator = emptyGenerator
+) {
   const handler = generateHandler(specification, valueGenerator);
   return new MockSwaggerServer(handler);
 };

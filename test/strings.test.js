@@ -3,12 +3,11 @@ const loadFixture = require("./util").loadFixture;
 const createServer = require("../");
 
 test("generates strings", async t => {
-  t.plan(4);
+  t.plan(3);
 
   function* generator() {
     yield "foo";
     yield "bar";
-    yield "baz";
     yield* generator();
   }
 
@@ -20,12 +19,10 @@ test("generates strings", async t => {
     const first = await server.request("/");
     const second = await server.request("/");
     const third = await server.request("/");
-    const fourth = await server.request("/");
 
-    t.equal(first, "foo");
-    t.equal(second, "bar");
-    t.equal(third, "baz");
-    t.equal(fourth, "foo");
+    t.equal(await first.data(), "foo");
+    t.equal(await second.data(), "bar");
+    t.equal(await third.data(), "foo");
   } catch (e) {
     t.fail(e);
   } finally {
