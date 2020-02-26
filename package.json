@@ -1,0 +1,7 @@
+{
+  "name": "swagger-mock",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Dan Pantry <devnull@danpantry.me>",
+  "license": "MIT"
+}
