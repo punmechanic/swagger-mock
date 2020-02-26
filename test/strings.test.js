@@ -1,6 +1,5 @@
 const test = require("tape");
 const http = require("http");
-const util = require("util");
 const url = require("url");
 
 const doc = {
