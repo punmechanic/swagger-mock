@@ -8,6 +8,7 @@
     "test": "tape test/**/*.test.js"
   },
   "devDependencies": {
+    "@types/node": "^13.7.6",
     "tape": "^4.13.0"
   },
   "dependencies": {}

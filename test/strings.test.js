@@ -1,20 +1,14 @@
 const test = require("tape");
 const http = require("http");
 const url = require("url");
+const fs = require("fs");
+const util = require("util");
+const path = require("path");
 
-const doc = {
-  swagger: "2.0",
-  paths: {
-    "/": {
-      responses: {
-        200: {
-          type: "string",
-          "x-format": "testformat"
-        }
-      }
-    }
-  }
-};
+const readFile = util.promisify(fs.readFile);
+const doc = readFile(path.resolve(__dirname, "./doc.yml"), {
+  encoding: "ascii"
+});
 
 class TestServer {
   constructor(specification, valueGenerator) {
@@ -101,7 +95,7 @@ test("generates strings", async t => {
     yield* generator();
   }
 
-  const server = new TestServer(doc, generator);
+  const server = new TestServer(await doc, generator);
   await server.start();
   try {
     const first = await server.request("/");

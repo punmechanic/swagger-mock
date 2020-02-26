@@ -1,0 +1,7 @@
+swagger: "2.0"
+paths:
+  /:
+    responses:
+      200:
+        type: string
+        x-format: testformat
