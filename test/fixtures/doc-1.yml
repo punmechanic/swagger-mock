@@ -3,5 +3,9 @@ paths:
   /:
     responses:
       200:
-        type: string
-        x-format: testformat
+        $ref: "#/components/TestFormatResponse"
+
+components:
+  TestFormatResponse:
+    type: string
+    x-format: testformat

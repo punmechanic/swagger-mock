@@ -1,6 +1,8 @@
 const http = require("http");
 const url = require("url");
 const express = require("express");
+const yaml = require("js-yaml");
+const resolveSpecification = require("./specification").resolveSpecification;
 
 function request(uri) {
   return new Promise((resolve, reject) => {
@@ -97,10 +99,13 @@ function* emptyGenerator() {
   yield* emptyGenerator();
 }
 
-module.exports = function createServer(
-  specification,
-  valueGenerator = emptyGenerator
-) {
+function createServer(yamlDocString, valueGenerator = emptyGenerator) {
+  const parsed = yaml.safeLoad(yamlDocString);
+  const specification = resolveSpecification(parsed);
   const handler = generateHandler(specification, valueGenerator);
   return new MockSwaggerServer(handler);
-};
+}
+
+// I'm not a fan of CommonJS exports but tape cli doesn't let us use ES6 ones.
+module.exports = createServer;
+module.exports.resolveSpecification = resolveSpecification;
