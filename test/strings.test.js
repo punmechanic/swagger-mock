@@ -1,10 +1,6 @@
 const test = require("tape");
-const fs = require("fs");
-const util = require("util");
-const path = require("path");
+const loadFixture = require("./util").loadFixture;
 const createServer = require("../");
-
-const readFile = util.promisify(fs.readFile);
 
 test("generates strings", async t => {
   t.plan(4);
@@ -16,8 +12,7 @@ test("generates strings", async t => {
     yield* generator();
   }
 
-  const fixturePath = path.resolve(__dirname, "./doc.yml");
-  const fixture = await readFile(fixturePath, { encoding: "ascii" });
+  const fixture = await loadFixture("doc-1.yml");
   const server = createServer(fixture, generator);
   await server.start();
 
