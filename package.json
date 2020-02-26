@@ -3,5 +3,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "author": "Dan Pantry <devnull@danpantry.me>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "test": "tape test/**/*.test.js"
+  },
+  "devDependencies": {
+    "tape": "^4.13.0"
+  },
+  "dependencies": {}
 }
