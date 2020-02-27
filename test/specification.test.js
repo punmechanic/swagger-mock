@@ -39,12 +39,23 @@ test("should expand $refs inline - swagger spec", t => {
             $ref: "#/components/TestFormatResponse"
           }
         }
+      },
+      "/static": {
+        responses: {
+          200: {
+            $ref: "#/components/StaticGreetingResponse"
+          }
+        }
       }
     },
     components: {
       TestFormatResponse: {
         type: "string",
-        "x-format": "testformat"
+        "x-internal:generated": true
+      },
+      StaticGreetingResponse: {
+        type: "string",
+        "x-static-value": "Hello, world!"
       }
     }
   });
@@ -52,6 +63,11 @@ test("should expand $refs inline - swagger spec", t => {
   t.equal(
     resolved.paths["/"].responses["200"],
     resolved.components.TestFormatResponse
+  );
+
+  t.equal(
+    resolved.paths["/static"].responses["200"],
+    resolved.components.StaticGreetingResponse
   );
 
   t.end();

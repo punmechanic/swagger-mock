@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "express": "^4.17.1",
-    "js-yaml": "^3.13.1"
+    "js-yaml": "^3.13.1",
+    "warning": "^4.0.3"
   }
 }

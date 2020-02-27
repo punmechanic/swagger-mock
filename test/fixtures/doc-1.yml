@@ -5,7 +5,21 @@ paths:
       200:
         $ref: "#/components/TestFormatResponse"
 
+  /x-static-value:
+    responses:
+      200:
+        $ref: "#/components/StaticGreetingResponse"
+
+  /no-200-response:
+    responses:
+      301:
+        type: string
+
 components:
   TestFormatResponse:
     type: string
-    x-format: testformat
+    "x-internal:generated": true
+  StaticGreetingResponse:
+    # You will probably never use x-static-value, but it's useful for testing :-)
+    type: string
+    x-static-value: Hello, world!

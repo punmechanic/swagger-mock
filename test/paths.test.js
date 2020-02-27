@@ -1,5 +1,5 @@
 const test = require("tape");
-const loadFixture = require("./util").loadFixture;
+const { loadFixture } = require("./util");
 const createServer = require("../");
 
 test("responds 404 to paths that do not exist", async t => {

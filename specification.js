@@ -45,7 +45,7 @@ function expandAllRefs(
       currentValue[key] = nextValue;
     };
 
-    return expandAllRefs(rootDoc, value, nextUpdate);
+    expandAllRefs(rootDoc, value, nextUpdate);
   }
 
   return rootDoc;
