@@ -1,6 +1,7 @@
 const test = require("tape");
-const { generateResponse } = require("../");
+const generateResponse = require("../responses");
 const { cyclicGenerator } = require("./util");
+
 test("x-internal:generated uses provided generator", t => {
   const generator = cyclicGenerator(["foo", "bar"]);
   const spec = {
