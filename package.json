@@ -5,11 +5,12 @@
   "author": "Dan Pantry <devnull@danpantry.me>",
   "license": "WTFPL",
   "scripts": {
-    "test": "tape test/**/*.test.js"
+    "test": "jest"
   },
   "devDependencies": {
     "@types/node": "^13.7.6",
-    "tape": "^4.13.0"
+    "jest": "^25.1.0",
+    "jest-tap-reporter": "^1.9.0"
   },
   "dependencies": {
     "express": "^4.17.1",
