@@ -1,4 +1,5 @@
-const { loadFixture, cyclicGenerator } = require("./util");
+const { loadFixture } = require("./util");
+const cyclicGenerator = require("../util");
 const createServer = require("../");
 
 test("/ returns one of a fixed value of strings", async () => {

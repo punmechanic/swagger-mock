@@ -8,10 +8,4 @@ async function loadFixture(name) {
   return await readFile(fixturePath, { encoding: "ascii" });
 }
 
-function* cyclicGenerator(values) {
-  yield* values;
-  yield* cyclicGenerator(values);
-}
-
 exports.loadFixture = loadFixture;
-exports.cyclicGenerator = cyclicGenerator;

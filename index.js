@@ -4,7 +4,10 @@ const express = require("express");
 const yaml = require("js-yaml");
 const { resolveSpecification } = require("./specification");
 const generateResponse = require("./responses");
-const { emptyGenerator, request } = require("./util");
+const { emptyGenerator, request, cyclicGenerator } = require("./util");
+const yargs = require("yargs");
+const fs = require("fs").promises;
+const path = require("path");
 
 class MockSwaggerServer {
   constructor(handler) {
@@ -108,3 +111,31 @@ function createServer(yamlDocString, valueGenerator = emptyGenerator) {
 // I'm not a fan of CommonJS exports but tape cli doesn't let us use ES6 ones.
 module.exports = createServer;
 module.exports.resolveSpecification = resolveSpecification;
+
+async function main() {
+  yargs
+    .number("port")
+    .string("host")
+    .string("specification")
+    .describe(
+      "specification",
+      "The path to the YAML specification file for your Swagger API"
+    )
+    .demandOption(["port", "host", "specification"]);
+
+  const argv = yargs.argv;
+  const spec = await fs.readFile(
+    path.resolve(process.cwd(), argv.specification)
+  );
+
+  const placeholderGenerator = cyclicGenerator(["foo", "bar", "baz"]);
+  const server = createServer(
+    spec.toString("ascii"),
+    () => placeholderGenerator
+  );
+  server.start(argv.port, argv.host);
+}
+
+if (require.main.filename === __filename) {
+  main();
+}

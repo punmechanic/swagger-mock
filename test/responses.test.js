@@ -1,5 +1,5 @@
 const generateResponse = require("../responses");
-const { cyclicGenerator } = require("./util");
+const { cyclicGenerator } = require("../util");
 
 describe("generateResponse", () => {
   test("x-internal:generated uses provided generator", () => {

@@ -8,6 +8,11 @@ function* emptyGenerator() {
   yield* emptyGenerator();
 }
 
+function* cyclicGenerator(values) {
+  yield* values;
+  yield* cyclicGenerator(values);
+}
+
 function request(uri) {
   return new Promise((resolve, reject) => {
     const req = http.request(uri);
@@ -40,3 +45,4 @@ function request(uri) {
 
 exports.emptyGenerator = emptyGenerator;
 exports.request = request;
+exports.cyclicGenerator = cyclicGenerator;
