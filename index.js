@@ -17,7 +17,6 @@ const argv = yargs.argv;
 
 async function main(port, host, specification) {
   const spec = await fs.readFile(path.resolve(process.cwd(), specification));
-
   const placeholderGenerator = cyclicGenerator(["foo", "bar", "baz"]);
   const server = createServer(
     spec.toString("ascii"),
