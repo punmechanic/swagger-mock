@@ -49,7 +49,6 @@ async function main(port, host, specification, formatOverride) {
   const format = tryGuessFormat(specPath, formatOverride);
   const doc = await fs.readFile(specPath, { encoding: "ascii" });
   const spec = parseSpecificationFromFormat(doc, format);
-
   const placeholderGenerator = () => cyclicGenerator(["foo", "bar", "baz"]);
   const server = createServer(spec, placeholderGenerator);
   server.start(port, host);
