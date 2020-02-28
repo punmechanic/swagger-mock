@@ -9,8 +9,7 @@
   },
   "devDependencies": {
     "@types/node": "^13.7.6",
-    "jest": "^25.1.0",
-    "jest-tap-reporter": "^1.9.0"
+    "jest": "^25.1.0"
   },
   "dependencies": {
     "express": "^4.17.1",

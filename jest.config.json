@@ -1,10 +1,1 @@
-{
-  "reporters": [
-    [
-      "jest-tap-reporter",
-      {
-        "logLevel": "ERROR"
-      }
-    ]
-  ]
-}
+{}
